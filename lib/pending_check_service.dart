@@ -1,6 +1,6 @@
-
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class PendingCheckService {
@@ -12,20 +12,28 @@ class PendingCheckService {
     return version;
   }
 
-  static void startPendingCheckService() {
-    _channel.invokeMethod("startPendingCheckService",
-        [
-          10, // time
-          "1234", // cart id
-          "dJxG3dOJQWPWQz0uVubwCrTB6c4UjFZ9aD7hMtYSlol8SPs2RP3mtj3KVibA", // token
-          "Title" , //title
-          "Description" , //description
-          "Order Canceled", //cancel title
-          "Restaurant not accepted your order", // cancel description
-          "https://daniapp.net/api/carts/",  // cancel url
-          "https://daniapp.net/api/orders/", // order status url
-          "704" // order id
-        ]
-    );
+  static void startPendingCheckService(
+      {int time,
+      String cardId,
+      String orderId,
+      String token,
+      String orderUrl,
+      String cartUrl,
+      String title,
+      String description,
+      String cancelTitle,
+      String cancelDescription}) {
+    _channel.invokeMethod("startPendingCheckService", [
+      time, // time
+      cardId, // cart id
+      token, // token
+      title, //title
+      description, //description
+      cancelTitle, //cancel title
+      cancelDescription, // cancel description
+      cartUrl, // cancel url
+      orderUrl, // order status url
+      orderId // order id
+    ]);
   }
 }

@@ -41,6 +41,8 @@ class PendingCheckServicePlugin: FlutterPlugin, MethodCallHandler {
     mContext = flutterPluginBinding.applicationContext;
   }
 
+
+
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")

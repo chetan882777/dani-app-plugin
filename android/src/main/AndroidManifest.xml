@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.example.pending_check_service">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+</manifest>

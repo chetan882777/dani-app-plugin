@@ -20,7 +20,17 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
-    PendingCheckService.startPendingCheckService();
+    PendingCheckService.startPendingCheckService(
+      time: 10,
+      cardId: "asd",
+      orderId: "asd",
+      orderUrl: "asd",
+      cartUrl: "dasd",
+      title: "dsfsdf",
+      description: "sdffsdsdf",
+      cancelTitle: "dfsdfsdfaasd",
+      cancelDescription: "Sdfffadasd"
+    );
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

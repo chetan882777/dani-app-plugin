@@ -22,10 +22,11 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
     PendingCheckService.startPendingCheckService(
       time: 10,
+      token: "4M4o0yoCJQc7cgRwcVlK2m8kdFwOfQbhXU7Ctt5FsLa4wAUbiz2sNzEOrfmR",
       cardId: "asd",
-      orderId: "asd",
-      orderUrl: "asd",
-      cartUrl: "dasd",
+      orderId: "750",
+      orderUrl: "https://daniapp.net/api/orders/",
+      updateUrl: "https://daniapp.net/api/update_order",
       title: "dsfsdf",
       description: "sdffsdsdf",
       cancelTitle: "dfsdfsdfaasd",

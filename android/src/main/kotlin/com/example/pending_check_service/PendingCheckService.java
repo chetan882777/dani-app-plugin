@@ -3,12 +3,14 @@ package com.example.pending_check_service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import org.json.JSONException;
@@ -20,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Scanner;
@@ -102,6 +105,7 @@ public class PendingCheckService extends Service {
 
         final Context context = this;
         Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
                 HttpsURLConnection urlConnection = null;
@@ -123,12 +127,28 @@ public class PendingCheckService extends Service {
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         notificationManager.getNotificationManager().notify(2, builder.build());
 
-                        urlConnection = (HttpsURLConnection) new URL(url + cardId + "?api_token=" + token).openConnection();
+                        urlConnection = (HttpsURLConnection) new URL(url).openConnection();
                         urlConnection.setDoOutput(true);
                         urlConnection.setRequestProperty("content-type", "application/json");
-                        urlConnection.setRequestMethod("DELETE");
-                        InputStream in2 = new BufferedInputStream(urlConnection.getInputStream());
-                        Log.d(TAG, "showOrderRejectedNotification: ============= " + in2.read());
+                        urlConnection.setRequestMethod("POST");
+                        JSONObject jsonObject1 = new JSONObject();
+                        jsonObject1.put("id", orderId);
+                        jsonObject1.put("order_status_id", 3);
+
+                        try(OutputStream os = urlConnection.getOutputStream()) {
+                            byte[] input = jsonObject1.toString().getBytes("utf-8");
+                            os.write(input, 0, input.length);
+                        }
+
+                        try(BufferedReader br = new BufferedReader(
+                                new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
+                            StringBuilder response = new StringBuilder();
+                            String responseLine = null;
+                            while ((responseLine = br.readLine()) != null) {
+                                response.append(responseLine.trim());
+                            }
+                            Log.d(TAG, "run: =========response : " + response.toString());
+                        }
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

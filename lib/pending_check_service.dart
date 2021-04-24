@@ -18,7 +18,7 @@ class PendingCheckService {
       String orderId,
       String token,
       String orderUrl,
-      String cartUrl,
+      String updateUrl,
       String title,
       String description,
       String cancelTitle,
@@ -31,7 +31,7 @@ class PendingCheckService {
       description, //description
       cancelTitle, //cancel title
       cancelDescription, // cancel description
-      cartUrl, // cancel url
+      updateUrl, // cancel url
       orderUrl, // order status url
       orderId // order id
     ]);
